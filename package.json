@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "exif-js": "^2.3.0",
+    "exifr": "^7.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3"
