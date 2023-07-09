@@ -1,6 +1,7 @@
 import React, { useCallback, useState} from "react";
 import { useDropzone } from "react-dropzone";
 import exifr from "exifr";
+import DataDisplay from "./DataDisplay";
 
 const FileUpload: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -41,12 +42,7 @@ const extractMetadata = async (file: File) => {
       ) : (
         <p>Drag and drop files here, or click to select files</p>
       )}
-      
-        <div>
-          <h2>Metadata:</h2>
-          <pre>{JSON.stringify(metadata, null, 2)}</pre>
-        </div>
-      
+      {file && metadata && <DataDisplay data={metadata} />}
     </div>
   );
 };
