@@ -4,4 +4,8 @@
   padding: 2rem;
   text-align: center;
 }
-
+.info {
+  border: 2px solid black;
+  background-color: #292929;
+  color: aliceblue;
+}
