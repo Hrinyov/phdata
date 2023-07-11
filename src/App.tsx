@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
-import FileUpload from './modules/FileUpload';
-import DataDisplay from './modules/DataDisplay';
+import FileUpload from './components/FileUpload';
+import DataDisplay from './components/DataDisplay';
 
 function App() {
  const [sharedData, setSharedData] = useState("");
