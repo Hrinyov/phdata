@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import * as htmlToImage from "html-to-image";
-
+import NumberFormatConverter from "./NumberConverter";
 interface DataDisplayProps {
   data: any;
 }
@@ -20,22 +20,27 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
   const downloadScreenshot = (screenshot: string) => {
     const link = document.createElement("a");
     link.href = screenshot;
-    link.download = "screenshot.jpg";
+    link.download = "info.jpg";
     link.click();
   };
 
   return (
-  <>
-  <div ref={dataDisplayRef} className="info">
-      <div>ISO: {data.ISO}</div>
-      <div>F{data.FNumber}</div>
-      <div>ExposureTime: {data.ExposureTime}</div>
-    </div>
-    <div>
-    <button onClick={captureScreenshot}>Capture Screenshot</button>  
-    </div>
-  </>
-    
+    <>
+      {data ? (
+        <div ref={dataDisplayRef} className="info">
+          <div className="item">ISO: {data.ISO}</div>
+          <div className="item">F: {data.FNumber}</div>
+          <div className="item">ExposureTime: {data.ExposureTime}</div>
+          <div className="item">WhiteBalance: {data.WhiteBalance}</div>
+        </div>
+      ) : (
+        <div className="info">No photo added yet</div>
+      )}
+
+      <div>
+        <button onClick={captureScreenshot}>Download image</button>
+      </div>
+    </>
   );
 };
 

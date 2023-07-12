@@ -38,12 +38,22 @@ const FileUpload: React.FC<FileUploadProps> = (  { updateSharedData }  ) => {
 
   
   return (
-    <div {...getRootProps()}>
+    <div className="uploader" {...getRootProps()}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <p>Drop the files here...</p>
+        <p>
+          <strong> Drop </strong>
+           the files here...
+        </p>
       ) : (
-        <p>Drag and drop files here, or click to select files</p>
+        <p>
+          <strong> Drag </strong>
+          and
+          <strong> drop </strong>
+          files here, or
+          <strong> click </strong>
+          to select files
+        </p>
       )}
     </div>
   );
