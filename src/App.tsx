@@ -11,7 +11,7 @@ function App() {
 
   return (
     <>
-      <h1>File Upload Example</h1>
+      <h1>Photodata in Image</h1>
       <FileUpload updateSharedData = {updateSharedData} />
       <DataDisplay data={sharedData} />
     </>
