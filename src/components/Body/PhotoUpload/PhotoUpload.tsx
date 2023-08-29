@@ -1,20 +1,16 @@
-import React, { useCallback, useState} from "react";
+import React, { useCallback} from "react";
 import { useDropzone } from "react-dropzone";
 import exifr from "exifr";
 
-interface FileUploadProps {
+interface PhotoUploadProps {
   updateSharedData: (arg: DataTransfer) => void
 }
 
-const FileUpload: React.FC<FileUploadProps> = (  { updateSharedData }  ) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [metadata, setMetadata] = useState<any | null>(null);
+const PhotoUpload: React.FC<PhotoUploadProps> = (  { updateSharedData }  ) => {
 
+  
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Handle the uploaded files here
-    setFile(acceptedFiles[0]);
     extractMetadata(acceptedFiles[0]);
-
   }, []);
 
   const extractMetadata = async (file: File) => {
@@ -24,7 +20,6 @@ const FileUpload: React.FC<FileUploadProps> = (  { updateSharedData }  ) => {
       if (dataURL) {
         try {
           const metadata = await exifr.parse(dataURL);
-          setMetadata(metadata);
           updateSharedData(metadata);
         } catch (error) {
           console.log("Error extracting metadata:", error);
@@ -59,4 +54,4 @@ const FileUpload: React.FC<FileUploadProps> = (  { updateSharedData }  ) => {
   );
 };
 
-export default FileUpload;
+export default PhotoUpload;

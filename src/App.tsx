@@ -1,21 +1,16 @@
-import { useState } from 'react'
-import './App.css'
-import FileUpload from './components/FileUpload';
-import DataDisplay from './components/DataDisplay';
+import { useState } from "react";
+import "./App.css";
+import Header from "./components/Header/Header";
+import Body from "./components/Body/Body";
 
 function App() {
- const [sharedData, setSharedData] = useState("");
- const updateSharedData = ( newData: any ): void => {
-   return  setSharedData(newData);
- };
 
   return (
     <>
-      <h1>Photodata in Image</h1>
-      <FileUpload updateSharedData = {updateSharedData} />
-      <DataDisplay data={sharedData} />
+      <Header />
+      <Body />
     </>
   );
 }
 
-export default App
+export default App;

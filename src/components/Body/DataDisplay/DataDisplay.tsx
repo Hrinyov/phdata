@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import * as htmlToImage from "html-to-image";
-import NumberFormatConverter from "./NumberConverter";
+import NumberConverter from "../../../utils/NumberConverter";
 interface DataDisplayProps {
   data: any;
 }
@@ -10,10 +10,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
 
   const captureScreenshot = async () => {
     if (dataDisplayRef.current) {
-      const image = await
-      htmlToImage
-        .toJpeg(dataDisplayRef.current)
-       downloadScreenshot(image)
+      const image = await htmlToImage.toJpeg(dataDisplayRef.current);
+      downloadScreenshot(image);
     }
   };
 
@@ -30,7 +28,10 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
         <div ref={dataDisplayRef} className="info">
           <div className="item">ISO: {data.ISO}</div>
           <div className="item">F: {data.FNumber}</div>
-          <div className="item">ExposureTime: {data.ExposureTime}</div>
+          <div className="item">
+            ExposureTime:
+            {NumberConverter(data.ExposureTime)}
+          </div>
           <div className="item">WhiteBalance: {data.WhiteBalance}</div>
         </div>
       ) : (
@@ -38,7 +39,9 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
       )}
 
       <div>
-        <button onClick={captureScreenshot}>Download image</button>
+        <button onClick={captureScreenshot} disabled={!data}>
+          Download image
+        </button>
       </div>
     </>
   );
