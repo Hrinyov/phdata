@@ -1,14 +1,15 @@
-import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
-import Body from "./components/Body/Body";
+import {NavLink, Outlet} from 'react-router-dom';
 
 function App() {
 
   return (
     <>
+      <NavLink to='/'>Home</NavLink> <NavLink to='/profile'>Profile</NavLink>
       <Header />
-      <Body />
+      <Outlet></Outlet>
+      
     </>
   );
 }
