@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Body from './components/Body/Body.tsx'
-import Profile from './components/Profile/Profile.tsx'
+import Home from './components/Body/Home/Home.tsx'
+import Profile from './components/Body/Profile/Profile.tsx'
 import ErrorPage from './ErrorPage.tsx'
 
 const router = createBrowserRouter([
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   errorElement: <ErrorPage />,
   children: [
     {
-      element: <Body />,
+      element: <Home />,
       index: true
     },
     {
