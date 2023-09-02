@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import * as htmlToImage from "html-to-image";
-import NumberConverter from "../../../utils/NumberConverter";
+import NumberConverter from "../../../../utils/NumberConverter";
 interface DataDisplayProps {
   data: any;
 }
