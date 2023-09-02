@@ -1,0 +1,29 @@
+.form button {
+    margin-left: 10rem;
+    position: relative;
+}
+.form-input {
+    margin: 1rem;
+    font-size: 24px;
+    justify-content: center;
+}
+.form-input label {
+    margin-right: 1rem;
+    
+}
+.form-input input {
+    border: 2px solid black;
+}
+.invalid input {
+    border: 2px solid #b40e0e;
+    background-color: #fddddd;
+}
+
+.invalid input:focus {
+    border-color: #c2c2c2;
+    background-color: #d3d3d3;
+}
+
+.error-text {
+  color: #b40e0e;
+}
