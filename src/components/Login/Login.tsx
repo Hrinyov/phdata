@@ -2,12 +2,14 @@ import React from "react";
 import Modal from "../UI/Modal/Modal";
 import useInput from "../../hooks/use-input";
 import Classes from "./Login.module.css";
+import axios from "axios";
 
 interface LoginProps {
-  onClose: () => void
+  onClose: () => void;
+  onSetToken: (userToken: { token: string }) => void;
 }
 
-const Login: React.FC<LoginProps> = ({onClose}) => {
+const Login: React.FC<LoginProps> = ({onClose, onSetToken}) => {
 
   const {
     value: usernameValue,
@@ -32,15 +34,29 @@ const Login: React.FC<LoginProps> = ({onClose}) => {
     formIsValid = true;
   }
 
-  const submitHandler = (event: any) => {
+  const submitHandler = async (event: any) => {
     event.preventDefault();
     if(!formIsValid){
       return;
     }
-    console.log({usernameValue,passwordValue});
-    usernameReset();
-    passwordReset();
+    try {
+      const response = await axios.post("http://localhost:8080/login", {
+        username: usernameValue,
+        password: passwordValue,
+      });
+
+      const { token } = response.data; 
+
+      onSetToken({ token });
+      usernameReset();
+      passwordReset();
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+    
   }
+
+
   const usernameClasses = hasUsernameError
     ? `${Classes["form-input"]} ${Classes.invalid}`
     : `${Classes["form-input"]}`;
