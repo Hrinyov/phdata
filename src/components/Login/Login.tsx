@@ -6,7 +6,7 @@ import axios from "axios";
 
 interface LoginProps {
   onClose: () => void;
-  onSetToken: (userToken: { token: string }) => void;
+  onSetToken: (userToken:  string | null) => void;
 }
 
 const Login: React.FC<LoginProps> = ({onClose, onSetToken}) => {
@@ -47,7 +47,7 @@ const Login: React.FC<LoginProps> = ({onClose, onSetToken}) => {
 
       const { token } = response.data; 
 
-      onSetToken({ token });
+      onSetToken(token);
       usernameReset();
       passwordReset();
     } catch (error) {
