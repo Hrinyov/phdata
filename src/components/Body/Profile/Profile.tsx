@@ -10,18 +10,29 @@ const Profile: React.FC = () => {
     const closeLogin =() =>{
         setLoginIsShow(false);
     }
-
-    if(true) {
-        return <>
-        {loginIsShow && <Login onClose={closeLogin} onSetToken={setToken}/> }
-        <h3>Please login</h3>
-        <button onClick={()=>setLoginIsShow(true)}>Login</button>
+    const logOutHandler = () => {
+      setToken(null);
+    };
+    return (
+        <>
+            {loginIsShow && (
+              <Login onClose={closeLogin} onSetToken={setToken} />
+            )}
+            {!token && (
+              <>
+                <h3>Please login</h3>
+                <button onClick={() => setLoginIsShow(true)}>Login</button>
+              </>
+            )}
+            {token && (
+              <>
+                <button onClick={logOutHandler}>Log out</button>
+                <h2>Photo gallery</h2>
+                <span>some data</span>
+              </>
+            )}
         </>
-    }
-
-    return <div>
-        <h2>Profile component</h2>
-    </div>
+    );
 }
 
 export default Profile
