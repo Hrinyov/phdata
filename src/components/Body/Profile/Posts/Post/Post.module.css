@@ -1,0 +1,17 @@
+.card-container {
+    margin-bottom: 1rem;
+}
+.card img{
+    max-width: 400px;
+    padding: 1.5rem 1.5rem 0rem;
+}
+.card{
+    width: fit-content;
+    background-color:rgba(226, 247, 249, 0.329);
+    border: 2px solid rgba(77, 77, 77, 0.607);
+    display: block;
+    margin: auto;
+}
+.card button{
+    margin: 0.25rem;
+}
