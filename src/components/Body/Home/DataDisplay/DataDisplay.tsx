@@ -61,7 +61,6 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
       }
 
   }
-  
 
   return (
     <>
@@ -83,7 +82,12 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
         <button onClick={captureScreenshot} disabled={!data}>
           Download image
         </button>
-        <button onClick={addPhotoToGalleryHandler} disabled={!token}>Add to gallery</button>
+        <button
+          onClick={addPhotoToGalleryHandler}
+          disabled={!data || !token}
+        >
+          Add to gallery
+        </button>
       </div>
     </>
   );
