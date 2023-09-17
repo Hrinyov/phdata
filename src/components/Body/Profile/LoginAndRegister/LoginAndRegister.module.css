@@ -1,0 +1,17 @@
+.wrapper {
+    height: 25rem;
+}
+.wrapper span {
+    font-size: large;
+}
+.card {
+    width: 10rem;
+    background-color:#ffffff96;
+    border: 2px solid rgba(77, 77, 77, 0.607);
+    display: inline-block;
+    margin: 1rem;
+}
+.card button {
+    margin-bottom: 1rem;
+    font-size: medium;
+}
