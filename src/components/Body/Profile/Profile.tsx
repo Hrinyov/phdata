@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react"
-import Login from "../../Login/Login";
 import useToken from "../../../hooks/use-token";
 import axios from "axios";
 import Posts from "./Posts/Posts";
+import LoginAndRegister from "./LoginAndRegister/LoginAndRegister";
 
 
 const Profile: React.FC = () => {
-    const [loginIsShow, setLoginIsShow] = useState(false);
     const {token, setToken} = useToken();
     const [posts, setPosts] = useState();
 
@@ -25,36 +24,26 @@ const Profile: React.FC = () => {
             if (response.status === 200) {
               const { posts } = response.data;
               setPosts(posts);
-            }
-            if (response.status === 511) {
-                setToken(null);
-                setLoginIsShow(true);
-            }    
-            } catch (error) {
+            }  
+            } catch (error:any) {
                console.error('Get posts failed')
+               if (error.response.status === 401){
+                setToken(null);
+               }
             }    
         }  
         }
         init()
-    },[]);
+    },[token]);
 
-
-    const closeLogin =() =>{
-        setLoginIsShow(false);
-    }
     const logOutHandler = () => {
       setToken(null);
     };
+
     return (
         <>
-            {loginIsShow && (
-              <Login onClose={closeLogin} onSetToken={setToken} />
-            )}
             {!token && (
-              <>
-                <h3>Please login</h3>
-                <button onClick={() => setLoginIsShow(true)}>Login</button>
-              </>
+              <LoginAndRegister onSetToken={setToken}/>
             )}
             {token && (
               <>
@@ -66,4 +55,4 @@ const Profile: React.FC = () => {
     );
 }
 
-export default Profile
+export default Profile;
