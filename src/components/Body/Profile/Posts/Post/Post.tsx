@@ -21,7 +21,7 @@ const Post: React.FC<PostProps> = ({post}) => {
             console.log('Deleted')
         }
     }
-    return <li key={post.id} className={classes['card-container']}>
+    return <li className={classes['card-container']}>
         <div className={classes.card}>
         <img src={post.imageUrl} alt='image'/>
         <div><strong>Description:</strong> {post.description ? post.description : 'empty'}</div>

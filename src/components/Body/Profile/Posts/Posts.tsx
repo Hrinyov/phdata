@@ -10,12 +10,11 @@ const Posts: React.FC<PostsProps> = ({posts}) =>{
 console.log(posts)
 
   const emptyMessage = <li key='1'>Empty gallery</li>;
-  if(posts){
-    
-  }
-  let displayPosts = posts ? posts.map((post:any) =>(
-   <Post post={post}/>
-  )) : emptyMessage;
+  
+
+  let displayPosts = posts
+    ? posts.map((post: any) => <Post key={post.id} post={post} />)
+    : emptyMessage;
 if(posts && posts.length === 0 ){
     displayPosts = emptyMessage
 }
