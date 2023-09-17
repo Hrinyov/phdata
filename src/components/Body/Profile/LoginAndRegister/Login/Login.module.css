@@ -1,0 +1,55 @@
+.name {
+    margin: 1rem;
+    font-size: 26px;
+    font-weight: 600;
+
+}
+.buttons-wrapper {
+    margin-left: 9rem;
+    position: relative;
+}
+.form-input {
+    margin: 1rem;
+    font-size: 24px;
+    justify-content: center;
+}
+.form-input label {
+    margin-right: 1rem;
+    
+}
+.form-input input {
+    border: 2px solid black;
+}
+.invalid input {
+    border: 2px solid #b40e0e;
+    background-color: #fddddd;
+}
+
+.invalid input:focus {
+    border-color: #c2c2c2;
+    background-color: #d3d3d3;
+}
+
+.error-text {
+  color: #b40e0e;
+}
+.message {
+    position: absolute; 
+    top: 0%;
+    left: 50%;
+    height: 10rem;
+    background-color: #fff;
+    z-index: 10;
+    text-align: center;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+  .message {
+    width: 40rem;
+    left: calc(50% - 20rem);
+  }
+}
+.message-text {
+    margin-top: 4rem;
+    font-size: 1.5rem;
+}
