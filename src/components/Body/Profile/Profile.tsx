@@ -10,31 +10,36 @@ const Profile: React.FC = () => {
     const [posts, setPosts] = useState();
 
     useEffect(()=>{
-        const init = async () =>{
-        if(!token){
-            return
-        }
-        if(token){
-            try {
-            const response = await axios.get("http://localhost:8080/gallery", {
-              headers: {
-                "x-auth-token": token,
-              },
-            });
-            if (response.status === 200) {
-              const { posts } = response.data;
-              setPosts(posts);
-            }  
-            } catch (error:any) {
-               console.error('Get posts failed')
-               if (error.response.status === 401){
-                setToken(null);
-               }
-            }    
-        }  
-        }
-        init()
+        getGallery();
     },[token]);
+
+    const getGallery = async ()=> {
+       if (!token) {
+         return;
+       }
+       if (token) {
+         try {
+           const response = await axios.get("http://localhost:8080/gallery", {
+             headers: {
+               "x-auth-token": token,
+             },
+           });
+           if (response.status === 200) {
+             const { posts } = response.data;
+             setPosts(posts);
+           }
+         } catch (error: any) {
+           console.error("Get posts failed");
+           if (error.response.status === 401) {
+             setToken(null);
+           }
+         }
+       }
+    }
+
+    const refresh = () =>{
+      getGallery();
+    }
 
     const logOutHandler = () => {
       setToken(null);
@@ -48,7 +53,7 @@ const Profile: React.FC = () => {
             {token && (
               <>
                 <button onClick={logOutHandler}>Log out</button>
-                <Posts posts={posts}/>
+                <Posts posts={posts} onRefresh={refresh}/>
               </>
             )}
         </>
