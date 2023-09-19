@@ -1,0 +1,14 @@
+.button-container {
+   padding: 1rem;
+}
+
+.button-container button {
+    margin-right: 1rem;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: 550;
+}
+
+.button-container div {
+    margin-top: 10px;
+}
