@@ -5,25 +5,12 @@
   text-align: center;
   background-color: #c3c0c0;
 }
-.info {
-  border: 3px solid black;
-  background-color: #4e5152;
-  color: aliceblue;
-  width: 420px;
-  height: 420px;
-  text-align: center;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-.item {
-  font-size: 24px;
-  margin: 24px;
-  justify-content: center;
-}
+
 .uploader {
   border: 1px dashed black;
   margin-bottom: 20px;
   background-color: #ffffff96;
   cursor: pointer;
 }
+
 
