@@ -1,94 +1,74 @@
-import React, { useRef } from "react";
-import * as htmlToImage from "html-to-image";
+import React, { useRef, useState } from "react";
 import NumberConverter from "../../../../utils/NumberConverter";
-import useToken from "../../../../hooks/use-token";
-import axios from "axios";
+import DataOrdering from "./DataOrdering/DataOrdering";
+import Filter from "./FilterForDataDisplay/Filter";
+import Classes from "./DataDisplay.module.css";
+
+import leaver from '../../../../assets/backgrounds/leaver.jpg';
+import mountain from '../../../../assets/backgrounds/mountain.jpg';
+import nikon from '../../../../assets/backgrounds/nikon.jpg';
+import woods from '../../../../assets/backgrounds/woods.jpg';
 
 interface DataDisplayProps {
   data: any;
 }
 
 const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
+
   const dataDisplayRef = useRef<HTMLDivElement>(null);
-  const {token} = useToken();
-  const captureScreenshot = async () => {
-    if (dataDisplayRef.current) {
-      const image = await htmlToImage.toJpeg(dataDisplayRef.current);
-      downloadScreenshot(image);
+  const [selectedFilter, setSelectedFilter] = useState("style1");
+
+
+  const backgroundImages: {[key:string]: string} = {
+    style1: leaver,
+    style2: nikon,
+    style3: mountain,
+    style4: woods,
+  };
+
+  const selectedBackground = backgroundImages[selectedFilter];
+
+  const style = {
+    backgroundImage: `url(${selectedBackground})`,
+  };
+
+  const handleFilterChange = (filter: string) => {
+    setSelectedFilter(filter);
+  };
+
+  const fixNumber = (number:string) =>{
+    if(number.toString().length === 1){
+      return (number+'.0');
     }
-  };
-
-  const downloadScreenshot = (screenshot: string) => {
-    const link = document.createElement("a");
-    link.href = screenshot;
-    link.download = "info.jpg";
-    link.click();
-  };
-
-  const base64ToBlob = (base64String: string, contentType = "image/jpeg") => {
-    const byteCharacters = atob(base64String);
-    const arrayBuffer = new ArrayBuffer(byteCharacters.length);
-    const view = new Uint8Array(arrayBuffer);
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      view[i] = byteCharacters.charCodeAt(i);
-    }
-
-    return new Blob([arrayBuffer], { type: contentType });
-  };
-
-  const addPhotoToGalleryHandler = async () =>{
-
-      if (dataDisplayRef.current && token) {
-        const image = await htmlToImage.toJpeg(dataDisplayRef.current);
-        const parts = image.split(",");
-        const base64Data = parts[1];
-        const file = base64ToBlob(base64Data);
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('description', '');
-        axios.post("http://localhost:8080/post", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "x-auth-token": token,
-          },
-        }).then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      }
-
+    return number;
   }
 
   return (
     <>
       {data ? (
-        <div ref={dataDisplayRef} className="info">
-          <div className="item">ISO: {data.ISO}</div>
-          <div className="item">F: {data.FNumber}</div>
-          <div className="item">
+        <div
+          ref={dataDisplayRef}
+          className={`${Classes.info} ${Classes[selectedFilter]}`}
+          style={style}
+        >
+          <div>ISO: {data.ISO}</div>
+          <div>F: {fixNumber(data.FNumber)}</div>
+          <div>
             ExposureTime:
             {NumberConverter(data.ExposureTime)}
           </div>
-          <div className="item">WhiteBalance: {data.WhiteBalance}</div>
+          {data.WhiteBalance && <div>WhiteBalance: {data.WhiteBalance}</div>}
+          <div>Focal length: {data.FocalLength} mm</div>
+          <div>Model: {data.Model}</div>
         </div>
       ) : (
-        <div className="info">No photo added yet</div>
+        <div className={`${Classes.info} ${selectedFilter}`}>
+          No photo added yet
+        </div>
       )}
+      <Filter onFilterChange={handleFilterChange} />
 
-      <div>
-        <button onClick={captureScreenshot} disabled={!data}>
-          Download image
-        </button>
-        <button
-          onClick={addPhotoToGalleryHandler}
-          disabled={!data || !token}
-        >
-          Add to gallery
-        </button>
-      </div>
+      <DataOrdering data={data} dataDisplayRef={dataDisplayRef} />
     </>
   );
 };
