@@ -1,19 +1,8 @@
-
-import classes from "./Modal.module.css";
 import ReactDOM from "react-dom";
+import Backdrop from "../../../layouts/Backdrop";
+import ModalOverlay from "../../../layouts/ModalOverlay";
 
-//need to fix props to backdrop (function - props:boolean)
-const Backdrop = (props:any) => {
-  return <div className={classes.backdrop} onClick={props.onClick}></div>;
-};
 
-const ModalOverlay = (props:any) => {
-  return (
-    <div className={classes.modal}>
-      <div className={classes.content}>{props.children}</div>
-    </div>
-  );
-};
 
 const portalElement = document.getElementById("overlays")!;
 

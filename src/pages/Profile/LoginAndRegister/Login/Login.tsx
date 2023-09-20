@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Modal from "../../../../UI/Modal/Modal";
-import useInput from "../../../../../hooks/use-input";
+import Modal from "../../../../components/UI/Modal/Modal";
+import useInput from "../../../../hooks/use-input";
 import Classes from "./Login.module.css";
 import axios from "axios";
 
@@ -32,7 +32,6 @@ const Login: React.FC<LoginProps> = ({ onClose, onSetToken, register = false }) 
     valueChangeHandler: passwordValueChangeHandler,
     reset: passwordReset,
   } = useInput((value: string) => value.trim().length > 4);
-
 
 
   let formIsValid = false;
@@ -86,7 +85,7 @@ const Login: React.FC<LoginProps> = ({ onClose, onSetToken, register = false }) 
     passwordReset();
   }
 
-  const showStatusMessage = (message:string, time:number = 3000) =>{
+  const showStatusMessage = (message: string, time: number = 3000) =>{
     setStatusMessage(message);
     const timer = setTimeout(() => {
       setStatusMessage("");

@@ -1,16 +1,17 @@
 import React, { useRef, useState } from "react";
-import NumberConverter from "../../../../utils/NumberConverter";
+import NumberConverter from "../../../utils/NumberConverter";
 import DataOrdering from "./DataOrdering/DataOrdering";
 import Filter from "./FilterForDataDisplay/Filter";
 import Classes from "./DataDisplay.module.css";
+import { Data } from "../../../types";
 
-import leaver from '../../../../assets/backgrounds/leaver.jpg';
-import mountain from '../../../../assets/backgrounds/mountain.jpg';
-import nikon from '../../../../assets/backgrounds/nikon.jpg';
-import woods from '../../../../assets/backgrounds/woods.jpg';
+import leaver from "../../../assets/images/backgrounds/leaver.jpg";
+import mountain from "../../../assets/images/backgrounds/mountain.jpg";
+import nikon from "../../../assets/images/backgrounds/nikon.jpg";
+import woods from "../../../assets/images/backgrounds/woods.jpg";
 
 interface DataDisplayProps {
-  data: any;
+  data: Data | undefined;
 }
 
 const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
@@ -19,7 +20,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
   const [selectedFilter, setSelectedFilter] = useState("style1");
 
 
-  const backgroundImages: {[key:string]: string} = {
+  const backgroundImages: {[key: string]: string} = {
     style1: leaver,
     style2: nikon,
     style3: mountain,
@@ -32,12 +33,12 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
     backgroundImage: `url(${selectedBackground})`,
   };
 
-  const handleFilterChange = (filter: string) => {
+  const filterChangeHandler = (filter: string) => {
     setSelectedFilter(filter);
   };
 
-  const fixNumber = (number:string) =>{
-    if(number.toString().length === 1){
+  const fixNumber = (number: string | undefined) => {
+    if(number?.toString().length === 1){
       return (number+'.0');
     }
     return number;
@@ -63,10 +64,10 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
         </div>
       ) : (
         <div className={`${Classes.info} ${selectedFilter}`}>
-          No photo added yet
+          <h3>No photo data yet</h3>
         </div>
       )}
-      <Filter onFilterChange={handleFilterChange} />
+      <Filter onFilterChange={filterChangeHandler} />
 
       <DataOrdering data={data} dataDisplayRef={dataDisplayRef} />
     </>

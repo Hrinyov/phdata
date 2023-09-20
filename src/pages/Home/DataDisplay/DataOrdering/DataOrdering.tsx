@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import * as htmlToImage from "html-to-image";
-import useToken from '../../../../../hooks/use-token';
+import useToken from '../../../../hooks/use-token';
 import Classes from './DataOrdering.module.css';
+import { Data } from '../../../../types';
 
 interface DataOrderingProps {
-    dataDisplayRef: React.RefObject<HTMLDivElement>,
-    data: any,
+    dataDisplayRef: React.RefObject<HTMLDivElement>;
+    data: Data | undefined;
 }
 
-const DataOrdering: React.FC<DataOrderingProps> = ({dataDisplayRef, data}) =>{
+const DataOrdering: React.FC<DataOrderingProps> = ({dataDisplayRef, data}) => {
 
     const { token } = useToken();
-    const initialButtonName = "Add to gallery"
+    const initialButtonName = "Add to gallery";
     const [buttonText, setButtonText] = useState(initialButtonName);
 
     const captureScreenshot = async () => {
@@ -68,7 +69,13 @@ const DataOrdering: React.FC<DataOrderingProps> = ({dataDisplayRef, data}) =>{
           })
           .catch((error) => {
             console.error(error);
-          });
+            if(error){
+              setButtonText("Failed...Try again.");
+              const timer = setTimeout(()=>{
+                setButtonText(initialButtonName);
+                clearTimeout(timer);
+              },2000);
+          }});
       }
     };
 

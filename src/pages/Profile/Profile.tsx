@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react"
-import useToken from "../../../hooks/use-token";
+import React, {useEffect, useState} from "react";
+import useToken from "../../hooks/use-token";
 import axios from "axios";
 import Posts from "./Posts/Posts";
 import LoginAndRegister from "./LoginAndRegister/LoginAndRegister";
@@ -13,7 +13,7 @@ const Profile: React.FC = () => {
         getGallery();
     },[token]);
 
-    const getGallery = async ()=> {
+    const getGallery = async () => {
        if (!token) {
          return;
        }
@@ -37,7 +37,7 @@ const Profile: React.FC = () => {
        }
     }
 
-    const refresh = () =>{
+    const refresh = () => {
       getGallery();
     }
 

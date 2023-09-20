@@ -1,9 +1,10 @@
 import React, { useCallback} from "react";
 import { useDropzone } from "react-dropzone";
 import exifr from "exifr";
+import { Data } from "../../../types";
 
 interface PhotoUploadProps {
-  updateSharedData: (arg: DataTransfer) => void
+  updateSharedData: (arg: Data) => void
 }
 
 const PhotoUpload: React.FC<PhotoUploadProps> = (  { updateSharedData }  ) => {
@@ -20,7 +21,15 @@ const PhotoUpload: React.FC<PhotoUploadProps> = (  { updateSharedData }  ) => {
       if (dataURL) {
         try {
           const metadata = await exifr.parse(dataURL);
-          updateSharedData(metadata);
+          const data: Data = {
+            ISO: metadata.ISO,
+            FNumber: metadata.FNumber,
+            ExposureTime: metadata.ExposureTime,
+            WhiteBalance: metadata.WhiteBalance,
+            FocalLength: metadata.FocalLength,
+            Model: metadata.Model,
+          };
+          updateSharedData(data);
         } catch (error) {
           console.log("Error extracting metadata:", error);
         }
