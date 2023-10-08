@@ -1,5 +1,5 @@
 
-const NumberConverter= (number: string | undefined) => {
+const NumberConverter = (number: string | undefined) => {
   if(number){
     const decimal = +number;
     if (decimal >= 1) {

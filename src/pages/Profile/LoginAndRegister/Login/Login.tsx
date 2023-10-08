@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import Modal from "../../../../components/UI/Modal/Modal";
-import useInput from "../../../../hooks/use-input";
+import useInput from "../../../../hooks/useInput";
 import Classes from "./Login.module.css";
-import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { tokenState } from "../../../../state/atoms/AppState";
+import { loginUser, registerUser } from "../../../../lib/axios/axiosAuth";
 
 interface LoginProps {
   onClose: () => void;
-  onSetToken: (userToken: string | null) => void;
-  register?: boolean;
+  isRegister?: boolean;
 }
 
-const Login: React.FC<LoginProps> = ({ onClose, onSetToken, register = false }) => {
-  const [toRegister, setToRegister] = useState(register);
+const Login: FC<LoginProps> = ({ onClose, isRegister = false }) => {
+  const setToken = useSetRecoilState(tokenState);
+  const [toRegister, setToRegister] = useState(isRegister);
   const [statusMessage, setStatusMessage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
 
@@ -46,18 +48,12 @@ const Login: React.FC<LoginProps> = ({ onClose, onSetToken, register = false }) 
     }
     setShowLoader(true);
     try {
-      const link = !toRegister
-        ? "http://localhost:8080/login"
-        : "http://localhost:8080/register";
-      
-      const response = await axios.post(link, {
-        username: usernameValue,
-        password: passwordValue,
-      });
-
+    const authService = toRegister ? registerUser : loginUser;
+    const response = await authService(usernameValue, passwordValue);
+  
       if(response.status === 200){
         const { token } = response.data;
-        onSetToken(token);
+        setToken(token);
         resetForm();
         setShowLoader(false);
         showStatusMessage("Login successful");
@@ -80,12 +76,12 @@ const Login: React.FC<LoginProps> = ({ onClose, onSetToken, register = false }) 
       }
     }
   };
-  const resetForm = () =>{
+  const resetForm = () => {
     usernameReset();
     passwordReset();
   }
 
-  const showStatusMessage = (message: string, time: number = 3000) =>{
+  const showStatusMessage = (message: string, time: number = 3000) => {
     setStatusMessage(message);
     const timer = setTimeout(() => {
       setStatusMessage("");
@@ -110,6 +106,7 @@ const Login: React.FC<LoginProps> = ({ onClose, onSetToken, register = false }) 
 
   return (
     <Modal onClick={onClose}>
+      <button onClick={onClose}>X</button>
       <form onSubmit={submitHandler} className={Classes.form}>
         <span className={Classes.name}>{formName}</span>
         <div className={usernameClasses}>

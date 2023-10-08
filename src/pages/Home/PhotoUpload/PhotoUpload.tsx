@@ -1,15 +1,14 @@
-import React, { useCallback} from "react";
+import {FC, useCallback} from "react";
 import { useDropzone } from "react-dropzone";
 import exifr from "exifr";
 import { Data } from "../../../types";
+import { photoDataState } from "../../../state/atoms/AppState";
+import { useSetRecoilState } from "recoil";
 
-interface PhotoUploadProps {
-  updateSharedData: (arg: Data) => void
-}
 
-const PhotoUpload: React.FC<PhotoUploadProps> = (  { updateSharedData }  ) => {
+const PhotoUpload: FC = () => {
 
-  
+  const setPhotoData = useSetRecoilState(photoDataState);
   const onDrop = useCallback((acceptedFiles: File[]) => {
     extractMetadata(acceptedFiles[0]);
   }, []);
@@ -29,7 +28,7 @@ const PhotoUpload: React.FC<PhotoUploadProps> = (  { updateSharedData }  ) => {
             FocalLength: metadata.FocalLength,
             Model: metadata.Model,
           };
-          updateSharedData(data);
+          setPhotoData(data);
         } catch (error) {
           console.log("Error extracting metadata:", error);
         }

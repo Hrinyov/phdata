@@ -1,36 +1,19 @@
-import React, { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import NumberConverter from "../../../utils/NumberConverter";
 import DataOrdering from "./DataOrdering/DataOrdering";
 import Filter from "./FilterForDataDisplay/Filter";
 import Classes from "./DataDisplay.module.css";
-import { Data } from "../../../types";
+import { useRecoilValue } from "recoil";
+import { photoDataState } from "../../../state/atoms/AppState";
+import { BACKGROUND_IMAGES } from "../../../config/constants";
 
-import leaver from "../../../assets/images/backgrounds/leaver.jpg";
-import mountain from "../../../assets/images/backgrounds/mountain.jpg";
-import nikon from "../../../assets/images/backgrounds/nikon.jpg";
-import woods from "../../../assets/images/backgrounds/woods.jpg";
-
-interface DataDisplayProps {
-  data: Data | undefined;
-}
-
-const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
-
+const DataDisplay: FC = () => {
+  const data = useRecoilValue(photoDataState);
   const dataDisplayRef = useRef<HTMLDivElement>(null);
   const [selectedFilter, setSelectedFilter] = useState("style1");
 
-
-  const backgroundImages: {[key: string]: string} = {
-    style1: leaver,
-    style2: nikon,
-    style3: mountain,
-    style4: woods,
-  };
-
-  const selectedBackground = backgroundImages[selectedFilter];
-
   const style = {
-    backgroundImage: `url(${selectedBackground})`,
+    backgroundImage: `url(${BACKGROUND_IMAGES[selectedFilter]})`,
   };
 
   const filterChangeHandler = (filter: string) => {
@@ -52,15 +35,16 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
           className={`${Classes.info} ${Classes[selectedFilter]}`}
           style={style}
         >
-          <div>ISO: {data.ISO}</div>
-          <div>F: {fixNumber(data.FNumber)}</div>
-          <div>
+          {data.ISO && <div>ISO: {data.ISO}</div>}
+          {data.FNumber && <div>F: {fixNumber(data.FNumber)}</div>}
+          {data.ExposureTime && <div>
             ExposureTime:
             {NumberConverter(data.ExposureTime)}
-          </div>
+          </div>}
           {data.WhiteBalance && <div>WhiteBalance: {data.WhiteBalance}</div>}
-          <div>Focal length: {data.FocalLength} mm</div>
-          <div>Model: {data.Model}</div>
+          {data.FocalLength && <div>Focal length: {data.FocalLength} mm</div>}
+          {data.Model && <div>Model: {data.Model}</div>}
+          {!data.ISO && <div>Invalid data</div>}
         </div>
       ) : (
         <div className={`${Classes.info} ${selectedFilter}`}>
@@ -68,8 +52,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data }) => {
         </div>
       )}
       <Filter onFilterChange={filterChangeHandler} />
-
-      <DataOrdering data={data} dataDisplayRef={dataDisplayRef} />
+      <DataOrdering dataDisplayRef={dataDisplayRef} />
     </>
   );
 };

@@ -1,14 +1,13 @@
-import React from "react";
+import { FC } from "react";
 import Classes from "./Post.module.css";
-import axios from "axios";
 import { PostData } from "../../../../types";
 
 interface PostProps {
     post: PostData;
-    onRefresh: () => void;
+    onDelete: (postId: string) => void;
 }
 
-const Post: React.FC<PostProps> = ({post, onRefresh}) => {
+const Post: FC<PostProps> = ({ post, onDelete }) => {
     
     const downloadHandler = (imageUrl: string) =>{
         const link = document.createElement("a");
@@ -18,12 +17,9 @@ const Post: React.FC<PostProps> = ({post, onRefresh}) => {
     }
 
     const deleteHandler = async (id: string) =>{
-        const response = await axios.delete(`http://localhost:8080/gallery/${id}`);
-        if(response.status === 200){
-            console.log('Deleted')
-            onRefresh();
-        }
+        onDelete(id)
     }
+    
     return (<li className={Classes['card-container']}>
         <div className={Classes.card}>
         <img src={post.imageUrl} alt='image'/>

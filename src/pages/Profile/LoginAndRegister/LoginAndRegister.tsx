@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import Classes from "./LoginAndRegister.module.css";
 import Login from "./Login/Login";
 
-interface LogAndRegProps {
-  onSetToken: (userToken: string | null) => void;
-}
-
-const LoginAndRegister: React.FC<LogAndRegProps> = ({ onSetToken }) => {
+const LoginAndRegister: FC = () => {
   const [loginIsShow, setLoginIsShow] = useState(false);
   const [registerIsShow, setRegisterIsShow] = useState(false);
 
-  const closeLogin = () => {
+  const closeForm = () => {
     setLoginIsShow(false);
     setRegisterIsShow(false);
   };
@@ -40,8 +36,8 @@ const LoginAndRegister: React.FC<LogAndRegProps> = ({ onSetToken }) => {
           </button>
         </div>
       </div>
-      {loginIsShow && <Login onClose={closeLogin} onSetToken={onSetToken} />}
-      {registerIsShow && <Login onClose={closeLogin} onSetToken={onSetToken} register={true} />}
+      {loginIsShow && <Login onClose={closeForm} />}
+      {registerIsShow && <Login onClose={closeForm} isRegister={true} />}
     </>
   );
 };

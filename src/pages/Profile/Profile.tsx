@@ -1,63 +1,31 @@
-import React, {useEffect, useState} from "react";
-import useToken from "../../hooks/use-token";
-import axios from "axios";
+import { FC } from "react";
 import Posts from "./Posts/Posts";
 import LoginAndRegister from "./LoginAndRegister/LoginAndRegister";
+import { tokenState } from "../../state/atoms/AppState";
+import { useRecoilState } from "recoil";
+import { useQueryClient } from "react-query";
 
+const Profile: FC = () => {
+  const [token, setToken] = useRecoilState(tokenState);
+  const queryClient = useQueryClient();
 
-const Profile: React.FC = () => {
-    const {token, setToken} = useToken();
-    const [posts, setPosts] = useState();
-
-    useEffect(()=>{
-        getGallery();
-    },[token]);
-
-    const getGallery = async () => {
-       if (!token) {
-         return;
-       }
-       if (token) {
-         try {
-           const response = await axios.get("http://localhost:8080/gallery", {
-             headers: {
-               "x-auth-token": token,
-             },
-           });
-           if (response.status === 200) {
-             const { posts } = response.data;
-             setPosts(posts);
-           }
-         } catch (error: any) {
-           console.error("Get posts failed");
-           if (error.response.status === 401) {
-             setToken(null);
-           }
-         }
-       }
-    }
-
-    const refresh = () => {
-      getGallery();
-    }
-
-    const logOutHandler = () => {
-      setToken(null);
-    };
-
-    return (
+  const logout = () => {
+    setToken(null);
+    queryClient.invalidateQueries("galleryData");
+  };
+  
+  return (
+   <>
+      {!token ? (
+        <LoginAndRegister />
+      ) : (
         <>
-            {!token && (
-              <LoginAndRegister onSetToken={setToken}/>
-            )}
-            {token && (
-              <>
-                <button onClick={logOutHandler}>Log out</button>
-                <Posts posts={posts} onRefresh={refresh}/>
-              </>
-            )}
+          <button onClick={logout}>Log out</button>
+          <Posts />
         </>
-    );
-}
+      )}
+    </>
+  );
+};
 
 export default Profile;

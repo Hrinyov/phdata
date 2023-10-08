@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import Classes from './Filter.module.css';
 
 interface FilterProps {
   onFilterChange: (filter: string) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
+const Filter: FC<FilterProps> = ({ onFilterChange }) => {
   const [selectedFilter, setSelectedFilter] = useState("style1");
 
   const handleFilterChange = (filter: string) => {
